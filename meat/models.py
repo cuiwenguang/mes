@@ -16,7 +16,7 @@ class CollectInfo(models.Model):
     creat_at = models.DateTimeField()  # 收购时间
     batch_number = models.CharField(max_length=20) # 收购批次
     customer = models.ForeignKey(Customer) # 客户账号
-    collect_weight = models.FloatField(default=0)  # 称重数量
+    collect_weight = models.FloatField(default=0)  # 称重重量
     collect_number = models.IntegerField(default=0)  # 收购数量
     standard = models.CharField(max_length=20) # 产品规格
     c_type = models.CharField(max_length=20) # 品种
@@ -48,4 +48,8 @@ class ButcheredInfo(models.Model):
     c_type = models.CharField(max_length=20)  # 品种
     level = models.CharField(max_length=20) # 等级
     user = models.ForeignKey(User)
+    ps_weight = models.FloatField(default=0)  #排酸重量
+
+
+
 
