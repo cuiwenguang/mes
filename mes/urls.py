@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from meat.views import index, login, sg_edit
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index),
+    path('login/', login),
+    path('sg/', sg_edit),
 ]
