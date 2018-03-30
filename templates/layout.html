@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/dataTables.bootstrap.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/select2.min.css' %}">
     <!-- CSS App -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/themes/flat-blue.css' %}">
 </head>
 
@@ -29,7 +29,7 @@
                             <i class="fa fa-bars icon"></i>
                         </button>
                         <ol class="breadcrumb navbar-breadcrumb">
-                            <li class="active">{{ title }}</li>
+                            <li class="active"></li>
                         </ol>
                         <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
                             <i class="fa fa-th icon"></i>
@@ -69,9 +69,9 @@
                                 <i class="fa fa-times icon"></i>
                             </button>
                         </div>
-                        <ul class="nav navbar-nav">
+                        <ul id="sideMenu" class="nav navbar-nav">
                             <li class="active">
-                                <a href="index.html">
+                                <a href="#sg">
                                     <span class="icon fa fa-tachometer"></span><span class="title">工作台</span>
                                 </a>
                             </li>

@@ -10,3 +10,5 @@ def index(request):
     return render(request, 'meat/index.html')
 
 
+def sg_edit(request):
+    return render(request, 'meat/sg_partial.html')
