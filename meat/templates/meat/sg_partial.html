@@ -2,44 +2,136 @@
     <div class="card">
         <div class="card-header">
             <div class="card-title">收购环节称重</div>
+            <div class="pull-right card-action">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-primary"> 称重 </button>
+                    <button type="button" class="btn btn-primary"> 保存 </button>
+                    <button type="button" class="btn btn-primary"> 打印 </button>
+                    <button type="button" class="btn btn-primary"> 保存并打印 </button>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <form class="form-horizontal">
                 <div class="row">
                     <div class="col-sm-6">
-
-                        <div class="form-group">
-                            <label for="cust_name" class="col-sm-2 control-label">姓名</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" id="cust_name" name="cust_name" placeholder="农户姓名自动获取">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_card" class="col-sm-2 control-label">身份证</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" id="id_card" name="id_card" placeholder="身份证号码">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="address" class="col-sm-2 control-label">详细地址</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" id="address" name="address" placeholder="详细地址">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="mobile" class="col-sm-2 control-label">详细地址</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" id="mobile" name="mobile" placeholder="联系电话">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading"> 计量数据 </div>
+                            <div class="panel-body">
+                                <div style="width: 100%; background-color: #2b2b2b">
+                                    <div style="font-size: 36px; margin: 20px;color: red">本次称重：100.00 KG</div>
+                                </div>
+                                <div style="width: 100%; background-color: #2b2b2b">
+                                    <div style="font-size: 36px; margin: 20px; color: red">累计重量：100.00 KG</div>
+                                </div>
+                                <div style="width: 100%; margin-top: 20px; background-color: #2b2b2b">
+                                    <div style="font-size: 36px; margin: 20px; color: red">累计金额：3000.00 元 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                       <div class="form-group">
-                            <div class="col-sm-12" style="background-color: #2b2b2b; text-align: center">
-                                <label style="color: red; font-size: 26px"> 0.00 KG </label>
-                                <input type="hidden" class="form-control" id="collect_weight" id="collect_weight">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"> 交易信息 </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="sg_no" class="col-sm-2 control-label">收购批次</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="sg_no" name="sg_no" placeholder="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cz_datetime" class="col-sm-2 control-label">时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="datetime-local" class="form-control" id="cz_datetime" name="cz_datetime" placeholder="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sg_source" class="col-sm-2 control-label">来源</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="sg_source" name="sg_source" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="single_price" class="col-sm-2 control-label">单价</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="single_price" name="single_price" placeholder="0.00">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="total_price" class="col-sm-2 control-label">总金额</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="total_price" name="total_price" placeholder="0.00">
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                交货人信息（身份证读卡器自动获取）
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="cust_name" class="col-sm-2 control-label">姓名</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="cust_name" name="cust_name" placeholder="农户姓名自动获取">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_card" class="col-sm-2 control-label">身份证</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="id_card" name="id_card" placeholder="身份证号码">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address" class="col-sm-2 control-label">详细地址</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="address" name="address" placeholder="详细地址">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobile" class="col-sm-2 control-label">联系电话</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="mobile" name="mobile" placeholder="联系电话">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                       <div class="panel panel-primary">
+                           <div class="panel-heading"> 计量信息 </div>
+                           <div class="panel-body">
+                               <div class="form-group">
+                                    <label for="number" class="col-sm-2 control-label">数量</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="number" name="number" placeholder="1">
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                    <label for="mz_weight" class="col-sm-2 control-label">毛重</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="mz_weight" name="mz_weight" placeholder="0">
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                    <label for="pz_weight" class="col-sm-2 control-label">皮重</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="pz_weight" name="pz_weight" placeholder="0">
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                    <label for="jz_weight" class="col-sm-2 control-label">净重</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="pz_weight" name="jz_weight" placeholder="0">
+                                    </div>
+                               </div>
+                           </div>
+                       </div>
                     </div>
                 </div>
             </form>
