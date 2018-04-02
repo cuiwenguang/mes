@@ -30,12 +30,13 @@
                                     Log In...
                                 </div>
                             </div>
-                            <form>
+                            <form method="post">
+                                {% csrf_token %}
                                 <div class="control">
-                                    <input type="text" class="form-control" value="" />
+                                    <input type="text" id="username" name="username" class="form-control" value="" />
                                 </div>
                                 <div class="control">
-                                    <input type="password" class="form-control" value="" />
+                                    <input type="password" id="password" name="password" class="form-control" value="" />
                                 </div>
                                 <div class="login-button text-center">
                                     <input type="submit" class="btn btn-primary" value="登陆">

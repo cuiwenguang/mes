@@ -1,7 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 # Create your models here.
+
+class Module(models.Model):
+    name = models.CharField(max_length=20)
+    url = models.CharField(max_length=50)
+    icon = models.CharField(max_length=20)
+    parent_id = models.IntegerField(default=0)
+
+
+class AccessModule(models.Model):
+    module_id = models.ForeignKey(Module, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+
 '''
 class Customer(models.Model):
     cust_name = models.CharField(max_length=20)
