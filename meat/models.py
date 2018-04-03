@@ -11,7 +11,7 @@ class Module(models.Model):
 
 
 class AccessModule(models.Model):
-    module_id = models.ForeignKey(Module, on_delete=models.CASCADE)
+    module_id = models.ForeignKey(Module, related_name="modules", on_delete=models.CASCADE)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 '''

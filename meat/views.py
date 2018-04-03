@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import redirect
 
+from .modules import get_modules
+
 # Create your views here.
 
 def logout(request):
@@ -12,7 +14,10 @@ def logout(request):
 
 @login_required
 def index(request):
-    return render(request, 'meat/index.html')
+    modules = get_modules(request.user, 0)
+    return render(request, 'meat/index.html', context={
+        "modules": modules
+    })
 
 
 def sg_edit(request):
