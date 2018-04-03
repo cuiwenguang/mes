@@ -12,6 +12,7 @@ def logout(request):
     sys_logout(request)
     return redirect(index)
 
+
 @login_required
 def index(request):
     modules = get_modules(request.user, 0)
