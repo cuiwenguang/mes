@@ -23,3 +23,11 @@ def index(request):
 
 def sg_edit(request):
     return render(request, 'meat/sg_partial.html')
+
+
+def sg_list(request):
+    return render(request, 'meat/sg_list.html')
+
+
+def sys_settings(request):
+    return render(request, 'meat/sys_settings.html')
