@@ -29,5 +29,13 @@ def sg_list(request):
     return render(request, 'meat/sg_list.html')
 
 
+def tzq_edit(request):
+    return render(request, 'meat/tzq_edit.html')
+
+
+def tzq_list(request):
+    return render(request, 'meat/tzq_list.html')
+
+
 def sys_settings(request):
     return render(request, 'meat/sys_settings.html')
