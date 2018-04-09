@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>Flat Admin V.2 - Free Bootstrap Admin Templates</title>
+    <title>屠宰行业生厂加工自动化系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS Libs -->
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap.min.css' %}">
@@ -14,9 +14,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/jquery.dataTables.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/dataTables.bootstrap.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'lib/css/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrapValidator.min.css' %}">
     <!-- CSS App -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/themes/flat-blue.css' %}">
+    {% block styles %}{% endblock %}
 </head>
 
 <body class="flat-blue">
@@ -108,6 +110,7 @@
             <!-- Main Content -->
             <div class="container-fluid">
                 <div class="side-body padding-top">
+                    {% block content %}{% endblock %}
                 </div>
             </div>
         </div>
@@ -129,9 +132,11 @@
             <script type="text/javascript" src="{% static 'lib/js/ace/ace.js' %}"></script>
             <script type="text/javascript" src="{% static 'lib/js/ace/ace.js' %}"></script>
             <script type="text/javascript" src="{% static 'lib/js/ace/theme-github.js' %}"></script>
+            <script type="text/javascript" src="{% static 'lib/js/bootstrapValidator.min.js' %}"></script>
             <!-- Javascript -->
             <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
             <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+            {% block scripts %}{% endblock %}
 </body>
 
 </html>

@@ -1,14 +1,15 @@
 from django.contrib.auth import logout as sys_logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from django.http.response import JsonResponse
+
 
 from .modules import get_modules
+from .forms import ConfigForm
+from .models import SystemConfig
 
-# Create your views here.
 
 def logout(request):
-
     sys_logout(request)
     return redirect(index)
 
@@ -43,3 +44,14 @@ def ttcz_edit(request):
 
 def sys_settings(request):
     return render(request, 'meat/sys_settings.html')
+
+
+def config_save(request):
+    if request.method == "POST":
+        conf_form = ConfigForm(request.POST)
+        if not conf_form.is_valid():
+            return JsonResponse({
+                "code": 403,
+                "message": "非法数据提交"
+            })
+        conf_form.save()
