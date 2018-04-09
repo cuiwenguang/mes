@@ -37,5 +37,9 @@ def tzq_list(request):
     return render(request, 'meat/tzq_list.html')
 
 
+def ttcz_edit(request):
+    return render(request, 'meat/ttcz_edit.html')
+
+
 def sys_settings(request):
     return render(request, 'meat/sys_settings.html')

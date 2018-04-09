@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 
-# Create your models here.
 
 class Module(models.Model):
+    """应用模块"""
     name = models.CharField(max_length=20)
     url = models.CharField(max_length=50)
     icon = models.CharField(max_length=20)
@@ -11,8 +11,32 @@ class Module(models.Model):
 
 
 class AccessModule(models.Model):
-    module_id = models.ForeignKey(Module, related_name="modules", on_delete=models.CASCADE)
+    """用户组可以访问的模块"""
+    module_id = models.ForeignKey(Module, related_name="modules",
+                                  on_delete=models.CASCADE)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+
+class Dictionary(models.Model):
+    """数据字典"""
+    item_key = models.CharField(max_length=50)  # 数据键
+    item_val = models.CharField(max_length=50)  # 数据值
+    item_type = models.CharField(max_length=20) # 字典类型
+
+
+class SystemConfig(models.Model):
+    """系统参数配置表"""
+    pay_type = models.IntegerField(default=1) # 结算方式 0 活体结算； 1 酮体结算； 2 两者都可以
+    live_buy_price = models.FloatField(default=0)  # 活体默认收购价格
+    live_tare = models.FloatField(default=0)  # 活体默认皮重
+    live_weigh_number = models.FloatField(default=5)  # 活体默认每次可称重数量
+    ketobody_weigh_number = models.FloatField(default=5)  # 酮体默认每次可称重数量
+    ketobody_buy_price = models.FloatField(default=0)  # 酮体默认收购价格
+    ketobody_tare = models.FloatField(default=0)  # 酮体默认皮重
+    unit_of_weight = models.CharField(max_length=10, default="KG")  # 重量计量单位
+    unit_of_number = models.CharField(max_length=10, default="只(头)")  # 数量计量单位
+
+
 
 '''
 class Customer(models.Model):

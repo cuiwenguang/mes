@@ -1,7 +1,7 @@
 <div class="row">
     <div class="card">
         <div class="card-header">
-            <div class="card-title">收购环节称重</div>
+            <div class="card-title">酮体称重</div>
             <div class="pull-right card-action">
                 <div role="group">
                     <button type="button" class="btn btn-primary"> 称重 </button>
@@ -17,6 +17,16 @@
                         <div class="form-group">
                             <label for="total_price" class="col-sm-3 control-label"> 收购流水号 </label>
                             <div class="col-sm-9">
+                                <input class="form-control" id="total_price" name="total_price" placeholder="输入收购流水，回车自动获取收购数据">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="total_price" class="col-sm-3 control-label"> 生产流水号 </label>
+                            <div class="col-sm-9">
                                 <input class="form-control" id="total_price" name="total_price" readonly placeholder="系统自动生成">
                             </div>
                         </div>
@@ -30,13 +40,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="sg_price" class="col-sm-3 control-label"> 收购单价 </label>
+                            <label for="sg_price" class="col-sm-3 control-label"> 数量 </label>
                             <div class="col-sm-9">
                                 <input class="form-control" id="sg_price" name="sg_price" placeholder="0.00">
                             </div>
                         </div>
-                        <div class="form-group form-group-lg">
-                            <label for="total_price" class="col-sm-3 control-label"> 总金额 </label>
+                        <div class="form-group">
+                            <label for="total_price" class="col-sm-3 control-label"> 收购总重量 </label>
                             <div class="col-sm-9">
                                 <input class="form-control" id="total_price" name="total_price" placeholder="0.00">
                             </div>
