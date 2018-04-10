@@ -1,58 +1,82 @@
 <div class="card">
     <div class="card-header">
-        <div class="card-title"> 收购参数设置 </div>
+        <div class="card-title"> 参数设置 </div>
         <div class="pull-right card-action">
             <div role="group">
-                <button type="button" class="btn btn-primary"> 称重 </button>
-                <button type="button" class="btn btn-primary"> 提交 </button>
-                <button type="button" class="btn btn-primary"> 提交并打印 </button>
+                <button type="button" id="btnSave" class="btn btn-primary"> 提交 </button>
             </div>
         </div>
     </div>
     <div class="card-body">
-        <form class="form-horizontal" method="post">
+        <div id="alertContainer"></div>
+        <form id="configForm" class="form-horizontal" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="pk" value="{{ config.id }}">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="is_pay" class="col-sm-4 control-label">结算方式</label>
+                        <label class="col-sm-4 control-label">结算方式</label>
                         <div class="col-sm-8">
-                            <div class="checkbox3 checkbox-inline">
-                                <input type="checkbox" id="ht_check">
-                                <label for="ht_check">活体结算</label>
-                            </div>
-                            <div class="checkbox3 checkbox-inline">
-                                <input type="checkbox" checked id="tt_check">
-                                <label for="tt_check">酮体结算</label>
-                            </div>
+                            <label for="ht_check">
+                                <input type="checkbox" id="ht_check" {% if config.pay_type == 0 %} checked {% endif %} name="pay_type" value="0">
+                                活体结算
+                            </label>
+                            <label for="tt_check">
+                                <input type="checkbox" ß id="tt_check" {% if config.pay_type == 1 %} checked {% endif %}  name="pay_type" value="1">
+                                酮体结算
+                            </label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sg_price" class="col-sm-4 control-label">收购价格</label>
+                        <label for="unit_of_weight" class="col-sm-4 control-label">重量计量单位</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="sg_price" name="sg_price" >
+                            <input class="form-control" id="unit_of_weight" name="unit_of_weight" value="{{ config.unit_of_weight }}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sg_price" class="col-sm-4 control-label">计量单位</label>
+                        <label for="unit_of_number" class="col-sm-4 control-label">数量计量单位</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="sg_price" name="sg_price" >
+                            <input class="form-control" id="unit_of_number" name="unit_of_number" value="{{ config.unit_of_number }}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sg_price" class="col-sm-4 control-label">活体收购默认皮重</label>
+                        <label for="live_tare" class="col-sm-4 control-label">活体收购默认皮重</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="sg_price" name="sg_price" >
+                            <input class="form-control" id="live_tare" name="live_tare" value="{{ config.live_tare }}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sg_price" class="col-sm-4 control-label">活体收购默认单价</label>
+                        <label for="live_buy_price" class="col-sm-4 control-label">活体收购默认单价</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="sg_price" name="sg_price" >
+                            <input class="form-control" id="live_buy_price" name="live_buy_price" value="{{ config.live_buy_price }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="live_weigh_number" class="col-sm-4 control-label">活体默认每次可称重数量</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="live_weigh_number" name="live_weigh_number" value="{{ config.live_weigh_number }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ketobody_buy_price" class="col-sm-4 control-label">酮体默认收购单价</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="ketobody_buy_price" name="ketobody_buy_price" value="{{ config.ketobody_buy_price }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ketobody_tare" class="col-sm-4 control-label">酮体默认皮重</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="ketobody_tare" name="ketobody_tare" value="{{ config.ketobody_tare }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ketobody_weigh_number" class="col-sm-4 control-label">酮体默认每次可称重数量</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="ketobody_weigh_number" name="ketobody_weigh_number" value="{{ config.ketobody_weigh_number }}" >
                         </div>
                     </div>
                 </div>
             </div>
         </form>
-
     </div>
 </div>

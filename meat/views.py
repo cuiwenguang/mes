@@ -23,7 +23,9 @@ def index(request):
 
 
 def sg_edit(request):
-    return render(request, 'meat/sg_partial.html')
+    config = SystemConfig.objects.first()
+    return render(request, 'meat/sg_partial.html',
+                  {"config": config})
 
 
 def sg_list(request):
@@ -43,15 +45,16 @@ def ttcz_edit(request):
 
 
 def sys_settings(request):
-    return render(request, 'meat/sys_settings.html')
+    config = SystemConfig.objects.first()
+    return render(request, 'meat/sys_settings.html',{"config":config})
 
 
-def config_save(request):
+def post_config(request):
     if request.method == "POST":
-        conf_form = ConfigForm(request.POST)
-        if not conf_form.is_valid():
-            return JsonResponse({
-                "code": 403,
-                "message": "非法数据提交"
-            })
-        conf_form.save()
+        form = ConfigForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.id = request.POST.get("pk", 0)
+            instance.save()
+            return JsonResponse({"code":200,"message": "保存成功"})
+    return JsonResponse({"code":403})

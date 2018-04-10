@@ -29,8 +29,8 @@ class SystemConfig(models.Model):
     pay_type = models.IntegerField(default=1) # 结算方式 0 活体结算； 1 酮体结算； 2 两者都可以
     live_buy_price = models.FloatField(default=0)  # 活体默认收购价格
     live_tare = models.FloatField(default=0)  # 活体默认皮重
-    live_weigh_number = models.FloatField(default=5)  # 活体默认每次可称重数量
-    ketobody_weigh_number = models.FloatField(default=5)  # 酮体默认每次可称重数量
+    live_weigh_number = models.IntegerField(default=5)  # 活体默认每次可称重数量
+    ketobody_weigh_number = models.IntegerField(default=5)  # 酮体默认每次可称重数量
     ketobody_buy_price = models.FloatField(default=0)  # 酮体默认收购价格
     ketobody_tare = models.FloatField(default=0)  # 酮体默认皮重
     unit_of_weight = models.CharField(max_length=10, default="KG")  # 重量计量单位

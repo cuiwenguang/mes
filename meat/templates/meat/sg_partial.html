@@ -24,21 +24,21 @@
                             <label for="total_price" class="col-sm-3 control-label"> 总金额 </label>
                             <div class="col-sm-9">
                                <select class="form-control">
-                                   <option>活体结算</option>
-                                   <option>酮体结算</option>
+                                   <option value="0" {% if config.pay_type == 0 %} selected {% endif %}>活体结算</option>
+                                   <option value="1" {% if config.pay_type == 0 %} selected {% endif %}>酮体结算</option>
                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="sg_price" class="col-sm-3 control-label"> 收购单价 </label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="sg_price" name="sg_price" placeholder="0.00">
+                                <input class="form-control" id="sg_price" name="sg_price" value="{{ config.live_buy_price }}">
                             </div>
                         </div>
                         <div class="form-group form-group-lg">
                             <label for="total_price" class="col-sm-3 control-label"> 总金额 </label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="total_price" name="total_price" placeholder="0.00">
+                                <input class="form-control" id="total_price" name="total_price" value="0">
                             </div>
                         </div>
                     </div>
@@ -109,9 +109,9 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                    <label for="number" class="col-sm-3 control-label">数量</label>
+                                    <label for="cur_number" class="col-sm-3 control-label">数量</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" id="number" name="number" placeholder="1">
+                                        <input class="form-control" id="cur_number" value="{{ config.live_weigh_number}}">
                                     </div>
                                 </div>
                                         <div class="form-group">
@@ -123,7 +123,7 @@
                                         <div class="form-group">
                                             <label for="pz_weight" class="col-sm-3 control-label">皮重</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" id="pz_weight" name="pz_weight" placeholder="0">
+                                                <input class="form-control" id="pz_weight" name="pz_weight" value="{{ config.live_tare}}">
                                             </div>
                                         </div>
                                         <div class="form-group form-group-lg">
@@ -134,66 +134,30 @@
                                         </div>
                                 </div>
                                 <div class="col-sm-8">
-                                    <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>序号</th>
-                                        <th>数量</th>
-                                        <th>毛重</th>
-                                        <th>皮重</th>
-                                        <th>净重</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>200</td>
-                                        <td>10</td>
-                                        <td>190</td>
-                                        <td width="100px" style="padding: 0px">
-                                            <div class="btn-group-xs" style="margin: 0px 20px">
-                                                <button type="button" class="btn btn-primary"> 删除 </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>200</td>
-                                        <td>10</td>
-                                        <td>190</td>
-                                        <td width="100px" style="padding: 0px">
-                                            <div class="btn-group-xs" style="margin: 0px 20px">
-                                                <button type="button" class="btn btn-primary"> 删除 </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>200</td>
-                                        <td>10</td>
-                                        <td>190</td>
-                                        <td width="100px" style="padding: 0px">
-                                            <div class="btn-group-xs" style="margin: 0px 20px">
-                                                <button type="button" class="btn btn-primary"> 删除 </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td> 称重: 1 次 </td>
-                                        <td> 数量： 20 只 </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> 总重量：200 公斤 </td>
-                                        <td> </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    <table id="table1" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>数量</th>
+                                                <th>毛重</th>
+                                                <th>皮重</th>
+                                                <th>净重</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td> 称重: <label>0</label> 次 </td>
+                                                <td> 数量： <label>0</label> 只 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td> 总重量：<label>0</label> 公斤 </td>
+                                                <td> </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
                         </div>
