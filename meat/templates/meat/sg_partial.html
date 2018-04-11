@@ -4,7 +4,7 @@
             <div class="card-title">收购环节称重</div>
             <div class="pull-right card-action">
                 <div role="group">
-                    <button type="button" class="btn btn-primary"> 称重 </button>
+                    <button id="btnSave" type="button" class="btn btn-primary"> 称重 </button>
                     <button type="button" class="btn btn-primary"> 提交 </button>
                     <button type="button" class="btn btn-primary"> 提交并打印 </button>
                 </div>
@@ -108,52 +108,52 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-4">
+                                    <div class="form-group form-group-lg">
+                                        <label for="jz_weight" class="col-sm-3 control-label">净重</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="jz_weight" name="jz_weight" value="0" style="color: red; font-weight: bolder">
+                                        </div>
+                                    </div>
                                     <div class="form-group">
-                                    <label for="cur_number" class="col-sm-3 control-label">数量</label>
-                                    <div class="col-sm-9">
-                                        <input class="form-control" id="cur_number" value="{{ config.live_weigh_number}}">
+                                        <label for="cur_number" class="col-sm-3 control-label">数量</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="cur_number" value="{{ config.live_weigh_number}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mz_weight" class="col-sm-3 control-label">毛重</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="mz_weight" name="mz_weight" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pz_weight" class="col-sm-3 control-label">皮重</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="pz_weight" name="pz_weight" value="{{ config.live_tare}}">
+                                        </div>
                                     </div>
                                 </div>
-                                        <div class="form-group">
-                                            <label for="mz_weight" class="col-sm-3 control-label">毛重</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" id="mz_weight" name="mz_weight" placeholder="0">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pz_weight" class="col-sm-3 control-label">皮重</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" id="pz_weight" name="pz_weight" value="{{ config.live_tare}}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group form-group-lg">
-                                            <label for="jz_weight" class="col-sm-3 control-label">净重</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" id="pz_weight" name="jz_weight" placeholder="0" style="color: red; font-weight: bolder">
-                                            </div>
-                                        </div>
-                                </div>
                                 <div class="col-sm-8">
-                                    <table id="table1" class="table table-bordered">
+                                    <table id="table1" data-toggle="table" class="table">
                                         <thead>
                                             <tr>
-                                                <th>序号</th>
-                                                <th>数量</th>
-                                                <th>毛重</th>
-                                                <th>皮重</th>
-                                                <th>净重</th>
-                                                <th>操作</th>
+                                                <th data-field="no">序号</th>
+                                                <th data-field="cur_number">数量</th>
+                                                <th data-field="mz_weight">毛重</th>
+                                                <th data-field="pz_weight">皮重</th>
+                                                <th data-field="jz_weight">净重</th>
+                                                <th data-field="opt">操作</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td> 称重: <label>0</label> 次 </td>
-                                                <td> 数量： <label>0</label> 只 </td>
+                                                <td>称重: <label id="lblCount" style="color:red">0</label> 次</td>
+                                                <td> 数量： <label id="lblNumber" style="color:red">0</label> {{ config.unit_of_number}} </td>
                                                 <td> </td>
                                                 <td> </td>
-                                                <td> 总重量：<label>0</label> 公斤 </td>
+                                                <td> 总重量：<label id="lblWeight" style="color:red">0</label> {{ config.unit_of_weight}} </td>
                                                 <td> </td>
                                             </tr>
                                         </tfoot>
