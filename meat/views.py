@@ -6,7 +6,8 @@ from django.http.response import JsonResponse
 
 from .modules import get_modules
 from .forms import ConfigForm
-from .models import SystemConfig
+from .models import SystemConfig, Customer, CollectInfo
+from .number import get__number
 
 
 def logout(request):
@@ -26,6 +27,43 @@ def sg_edit(request):
     config = SystemConfig.objects.first()
     return render(request, 'meat/sg_partial.html',
                   {"config": config})
+
+
+
+def post_sg(request):
+    if request.method != "POST":
+        return JsonResponse({"code": 403, "message": "非法访问被拒绝"})
+    try:
+        cust = Customer.objects.get(id_card=request.POST.get("id_card"))
+        cust.cust_name = request.POST.get("cust_name")
+        cust.mobile = request.POST.get("mobile", cust.mobile)
+        cust.address = request.POST.get("address", cust.address)
+    except:
+        cust = Customer(**{
+            "id_card": request.POST.get("id_card"),
+            "cust_name": request.POST.get("cust_name"),
+            "mobile": request.POST.get("mobile", ""),
+            "address": request.POST.get("address", "")
+        })
+    cust.save()
+    sg = {
+        "sg_no": get__number("SG"),
+        "pay_type": request.POST.get("pay_type", 1),
+        "sg_price": request.POST.get("sg_price", 0),
+        "sg_datetime": request.POST.get("sg_datetime"),
+        "sg_source": request.POST.get("sg_source"),
+        "c_type": request.POST.get("c_type"),
+        "c_standard": request.POST.get("c_standard"),
+        "cz_number": request.POST.get("cz_number"),
+        "cz_weight": request.POST.get("cz_weight"),
+        "state": 1,
+        "flow_step": 1,
+        "user": request.user,
+        "customer": cust
+    }
+    model = CollectInfo(**sg)
+    model.save()
+    return JsonResponse({"code":200,"message":"本次收购数据提交成功"})
 
 
 def sg_list(request):

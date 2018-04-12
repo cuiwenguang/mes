@@ -5,37 +5,39 @@
             <div class="pull-right card-action">
                 <div role="group">
                     <button id="btnSave" type="button" class="btn btn-primary"> 称重 </button>
-                    <button type="button" class="btn btn-primary"> 提交 </button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary"> 提交 </button>
                     <button type="button" class="btn btn-primary"> 提交并打印 </button>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <form class="form-horizontal">
+            <div id="alertContainer"></div>
+            <form id="formSG" method="post" class="form-horizontal">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="total_price" class="col-sm-3 control-label"> 收购流水号 </label>
+                            <label for="sg_no" class="col-sm-3 control-label"> 收购批次 </label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="total_price" name="total_price" readonly placeholder="系统自动生成">
+                                <input class="form-control" id="sg_no" name="sg_no" readonly placeholder="系统自动生成">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="total_price" class="col-sm-3 control-label"> 总金额 </label>
+                            <label for="pay_type" class="col-sm-3 control-label"> 结算方式 </label>
                             <div class="col-sm-9">
-                               <select class="form-control">
+                               <select id="pay_type" name="pay_type" class="form-control">
                                    <option value="0" {% if config.pay_type == 0 %} selected {% endif %}>活体结算</option>
-                                   <option value="1" {% if config.pay_type == 0 %} selected {% endif %}>酮体结算</option>
+                                   <option value="1" {% if config.pay_type == 1 %} selected {% endif %}>酮体结算</option>
                                </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group jiesuan">
                             <label for="sg_price" class="col-sm-3 control-label"> 收购单价 </label>
                             <div class="col-sm-9">
                                 <input class="form-control" id="sg_price" name="sg_price" value="{{ config.live_buy_price }}">
                             </div>
                         </div>
-                        <div class="form-group form-group-lg">
+                        <div class="form-group form-group-lg jiesuan">
                             <label for="total_price" class="col-sm-3 control-label"> 总金额 </label>
                             <div class="col-sm-9">
                                 <input class="form-control" id="total_price" name="total_price" value="0">
@@ -46,13 +48,13 @@
                         <div class="form-group">
                             <label for="id_card" class="col-sm-3 control-label">身份证</label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="id_card" name="id_card" placeholder="身份证号码">
+                                <input class="form-control" id="id_card" name="id_card" placeholder="身份证号码" value="">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="cust_name" class="col-sm-3 control-label">姓名</label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="cust_name" name="cust_name" placeholder="农户姓名自动获取">
+                                <input class="form-control" id="cust_name" name="cust_name" placeholder="农户姓名自动获取" value="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -71,9 +73,9 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="cz_datetime" class="col-sm-3 control-label">时间</label>
+                            <label for="sg_datetime" class="col-sm-3 control-label">时间</label>
                             <div class="col-sm-9">
-                                <input type="datetime-local" class="form-control" id="cz_datetime" name="cz_datetime" placeholder="0">
+                                <input type="text" class="form-control" id="sg_datetime" name="sg_datetime" placeholder="0">
                             </div>
                         </div>
                         <div class="form-group">
@@ -83,18 +85,18 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="single_price" class="col-sm-3 control-label">规格</label>
+                            <label for="c_standard" class="col-sm-3 control-label">规格</label>
                             <div class="col-sm-9">
-                               <select class="form-control">
+                               <select id="c_standard" name="c_standard" class="form-control">
                                    <option>规格1</option>
                                    <option>规格2</option>
                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="total_price" class="col-sm-3 control-label">品种</label>
+                            <label for="c_type" class="col-sm-3 control-label">品种</label>
                             <div class="col-sm-9">
-                                <select class="form-control">
+                                <select id="c_type" name="c_type" class="form-control">
                                     <option>品种1</option>
                                     <option>品种2</option>
                                 </select>
@@ -134,7 +136,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-8">
-                                    <table id="table1" data-toggle="table" class="table">
+                                    <table id="table1" class="table">
                                         <thead>
                                             <tr>
                                                 <th data-field="no">序号</th>
@@ -149,11 +151,11 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td>称重: <label id="lblCount" style="color:red">0</label> 次</td>
-                                                <td> 数量： <label id="lblNumber" style="color:red">0</label> {{ config.unit_of_number}} </td>
+                                                <td>称重: <label id="lblCount" style="color:red">0</label> 次 <input id="cz_count" name="cz_count" type="hidden" value="0"> </td>
+                                                <td> 数量： <label id="lblNumber" style="color:red">0</label> {{ config.unit_of_number}} <input id="cz_number" name="cz_number" type="hidden" value="0"> </td>
                                                 <td> </td>
                                                 <td> </td>
-                                                <td> 总重量：<label id="lblWeight" style="color:red">0</label> {{ config.unit_of_weight}} </td>
+                                                <td> 总重量：<label id="lblWeight" style="color:red">0</label> {{ config.unit_of_weight}} <input id="cz_weight" name="cz_weight" type="hidden" value="0"> </td>
                                                 <td> </td>
                                             </tr>
                                         </tfoot>

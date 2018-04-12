@@ -37,29 +37,36 @@ class SystemConfig(models.Model):
     unit_of_number = models.CharField(max_length=10, default="只(头)")  # 数量计量单位
 
 
-
-'''
 class Customer(models.Model):
-    cust_name = models.CharField(max_length=20)
     id_card = models.CharField(max_length=20)
+    cust_name = models.CharField(max_length=20)
     address = models.CharField(max_length=255)
     mobile = models.CharField(max_length=20)
 
 
 class CollectInfo(models.Model):
-    collect_no = models.CharField(max_length=50)  # 交易流水号
-    creat_at = models.DateTimeField()  # 收购时间
-    batch_number = models.CharField(max_length=20)  # 收购批次
-    customer = models.ForeignKey(Customer, on_delete=None)  # 客户账号
-    collect_weight = models.FloatField(default=0)  # 收购称重重量
-    wait_weight = models.FloatField(default=0)  # 待宰前称重重量
-    butcher_weight = models.FloatField(default=0)  # 屠宰后称重量
-    collect_number = models.IntegerField(default=0)  # 收购数量
-    standard = models.CharField(max_length=20)  # 产品规格
+    """收购信息表"""
+    sg_no = models.CharField(max_length=50)  # 收购批次
+    pay_type = models.IntegerField(default=1)  # 结算方式
+    sg_price = models.FloatField(default=0)  # 收购单价
+    sg_datetime = models.DateTimeField(auto_now=True)  # 收购时间
+    customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)  # 客户账号
+    cz_weight = models.FloatField(default=0)  # 收购称重重量
+    cz_weight2 = models.FloatField(default=0)  # 待宰前称重重量
+    cz_weight3 = models.FloatField(default=0)  # 屠宰后称重量
+    cz_number = models.IntegerField(default=0)  # 收购数量
+    cz_number2 = models.IntegerField(default=0)  # 待宰前称重数量
+    cz_number3 = models.IntegerField(default=0)  # 屠宰后称重量
+    sg_source = models.CharField(max_length=100, default='')  # 收购来源
     c_type = models.CharField(max_length=20)  # 品种
-    user = models.ForeignKey(User, on_delete=None)
+    c_standard = models.CharField(max_length=20)  # 规格
+    c_level = models.CharField(max_length=20)  # 等级
+    state = models.IntegerField(default=1)  # 数据状态，备用
+    flow_step = models.IntegerField(default=0)  # 流程状态，改数据到哪一步，0.活体称重；1. 屠宰前称重；2. 酮体称重;
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)  # 操作员
 
 
+'''
 class CollectInfo(models.Model):
     collect_no = models.CharField(max_length=50) # 交易流水号
     creat_at = models.DateTimeField()  # 收购时间
