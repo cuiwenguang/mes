@@ -4,41 +4,55 @@
             <div class="card-title">屠宰前称重</div>
             <div class="pull-right card-action">
                 <div role="group">
-                    <button type="button" class="btn btn-primary"> 称重 </button>
-                    <button type="button" class="btn btn-primary"> 提交 </button>
+                    <button id="btnSave" type="button" class="btn btn-primary"> 称重 </button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary"> 提交 </button>
                     <button type="button" class="btn btn-primary"> 提交并打印 </button>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <form class="form-horizontal">
+            <div id="alertContainer"></div>
+            <form id="formSG" method="post" class="form-horizontal">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="total_price" class="col-sm-3 control-label"> 收购流水号 </label>
+                            <label for="sg_no" class="col-sm-3 control-label"> 收购批次 </label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="total_price" name="total_price" placeholder="输入收购流水，回车自动获取收购数据">
+                                <input class="form-control" id="sg_no" name="sg_no" placeholder="输入收购批次号自动提取收购信息">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="total_price" class="col-sm-3 control-label"> 总金额 </label>
+                            <label for="pay_type" class="col-sm-3 control-label"> 结算方式 </label>
                             <div class="col-sm-9">
-                               <select class="form-control">
-                                   <option>活体结算</option>
-                                   <option>酮体结算</option>
+                               <select id="pay_type"  disabled="disabled" name="pay_type" class="form-control">
+                                   <option value="0" {% if config.pay_type == 0 %} selected {% endif %}>活体结算</option>8
+                                   <option value="1" {% if config.pay_type == 1 %} selected {% endif %}>酮体结算</option>
                                </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="sg_price" class="col-sm-3 control-label"> 数量 </label>
+                        <div class="form-group ">
+                            <label for="cz_number" class="col-sm-3 control-label"> 收购数量 </label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="sg_price" name="sg_price" placeholder="0.00">
+                                <input class="form-control" disabled="disabled" id="cz_number" name="cz_number" value="0">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="total_price" class="col-sm-3 control-label"> 收购总重量 </label>
+                        <div class="form-group ">
+                            <label for="cz_weight" class="col-sm-3 control-label"> 收购总重量 </label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="total_price" name="total_price" placeholder="0.00">
+                                <input class="form-control" disabled="disabled" id="cz_weight" name="cz_weight" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group jiesuan">
+                            <label for="sg_price" class="col-sm-3 control-label"> 收购单价 </label>
+                            <div class="col-sm-9">
+                                <input class="form-control" disabled="disabled" id="sg_price" name="sg_price" value="{{ config.live_buy_price }}">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg jiesuan">
+                            <label for="total_price"  class="col-sm-3 control-label"> 总金额 </label>
+                            <div class="col-sm-9">
+                                <input class="form-control" disabled="disabled" id="total_price" name="total_price" value="0">
                             </div>
                         </div>
                     </div>
@@ -46,55 +60,61 @@
                         <div class="form-group">
                             <label for="id_card" class="col-sm-3 control-label">身份证</label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="id_card" name="id_card" placeholder="身份证号码">
+                                <input class="form-control" disabled="disabled" id="id_card" name="id_card" placeholder="身份证号码" value="">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="cust_name" class="col-sm-3 control-label">姓名</label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="cust_name" name="cust_name" placeholder="农户姓名自动获取">
+                                <input class="form-control" disabled="disabled" id="cust_name" name="cust_name" placeholder="农户姓名自动获取" value="">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="mobile" class="col-sm-3 control-label">联系电话</label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="mobile" name="mobile" placeholder="联系电话">
+                                <input class="form-control" disabled="disabled" id="mobile" name="mobile" placeholder="联系电话">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="address" class="col-sm-3 control-label">详细地址</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" id="address" name="address" placeholder="详细地址"></textarea>
+                                <textarea class="form-control" disabled="disabled" id="address" name="address" placeholder="详细地址"></textarea>
                             </div>
                         </div>
 
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="cz_datetime" class="col-sm-3 control-label">时间</label>
+                            <label for="sg_datetime"  class="col-sm-3 control-label">收购时间</label>
                             <div class="col-sm-9">
-                                <input type="datetime-local" class="form-control" id="cz_datetime" name="cz_datetime" placeholder="0">
+                                <input type="text" class="form-control" disabled="disabled" id="sg_datetime" name="sg_datetime">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="sg_source" class="col-sm-3 control-label">来源</label>
+                            <label for="tzq_datetime"  class="col-sm-3 control-label">时间</label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="sg_source" name="sg_source" placeholder="">
+                                <input type="text" class="form-control" id="tzq_datetime" name="tzq_datetime" placeholder="0">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="single_price" class="col-sm-3 control-label">规格</label>
+                            <label for="sg_source"  class="col-sm-3 control-label">来源</label>
                             <div class="col-sm-9">
-                               <select class="form-control">
+                                <input class="form-control" disabled="disabled" id="sg_source" name="sg_source" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="c_standard" class="col-sm-3 control-label">规格</label>
+                            <div class="col-sm-9">
+                               <select id="c_standard" disabled="disabled" name="c_standard" class="form-control">
                                    <option>规格1</option>
                                    <option>规格2</option>
                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="total_price" class="col-sm-3 control-label">品种</label>
+                            <label for="c_type" class="col-sm-3 control-label">品种</label>
                             <div class="col-sm-9">
-                                <select class="form-control">
+                                <select id="c_type" name="c_type" disabled="disabled" class="form-control">
                                     <option>品种1</option>
                                     <option>品种2</option>
                                 </select>
@@ -108,92 +128,56 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-4">
+                                    <div class="form-group form-group-lg">
+                                        <label for="jz_weight" class="col-sm-3 control-label">净重</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="jz_weight" name="jz_weight" value="0" style="color: red; font-weight: bolder">
+                                        </div>
+                                    </div>
                                     <div class="form-group">
-                                    <label for="number" class="col-sm-3 control-label">数量</label>
-                                    <div class="col-sm-9">
-                                        <input class="form-control" id="number" name="number" placeholder="1">
+                                        <label for="cur_number" class="col-sm-3 control-label">数量</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="cur_number" value="{{ config.live_weigh_number}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mz_weight" class="col-sm-3 control-label">毛重</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="mz_weight" name="mz_weight" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pz_weight" class="col-sm-3 control-label">皮重</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="pz_weight" name="pz_weight" value="{{ config.live_tare}}">
+                                        </div>
                                     </div>
                                 </div>
-                                        <div class="form-group">
-                                            <label for="mz_weight" class="col-sm-3 control-label">毛重</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" id="mz_weight" name="mz_weight" placeholder="0">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pz_weight" class="col-sm-3 control-label">皮重</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" id="pz_weight" name="pz_weight" placeholder="0">
-                                            </div>
-                                        </div>
-                                        <div class="form-group form-group-lg">
-                                            <label for="jz_weight" class="col-sm-3 control-label">净重</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" id="pz_weight" name="jz_weight" placeholder="0" style="color: red; font-weight: bolder">
-                                            </div>
-                                        </div>
-                                </div>
                                 <div class="col-sm-8">
-                                    <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>序号</th>
-                                        <th>数量</th>
-                                        <th>毛重</th>
-                                        <th>皮重</th>
-                                        <th>净重</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>200</td>
-                                        <td>10</td>
-                                        <td>190</td>
-                                        <td width="100px" style="padding: 0px">
-                                            <div class="btn-group-xs" style="margin: 0px 20px">
-                                                <button type="button" class="btn btn-primary"> 删除 </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>200</td>
-                                        <td>10</td>
-                                        <td>190</td>
-                                        <td width="100px" style="padding: 0px">
-                                            <div class="btn-group-xs" style="margin: 0px 20px">
-                                                <button type="button" class="btn btn-primary"> 删除 </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>200</td>
-                                        <td>10</td>
-                                        <td>190</td>
-                                        <td width="100px" style="padding: 0px">
-                                            <div class="btn-group-xs" style="margin: 0px 20px">
-                                                <button type="button" class="btn btn-primary"> 删除 </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td> 称重: 1 次 </td>
-                                        <td> 数量： 20 只 </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> 总重量：200 公斤 </td>
-                                        <td> </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    <table id="table1" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="no">序号</th>
+                                                <th data-field="cur_number">数量</th>
+                                                <th data-field="mz_weight">毛重</th>
+                                                <th data-field="pz_weight">皮重</th>
+                                                <th data-field="jz_weight">净重</th>
+                                                <th data-field="opt">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td>称重: <label id="lblCount" style="color:red">0</label> 次 <input id="cz_count" name="cz_count" type="hidden" value="0"> </td>
+                                                <td> 数量： <label id="lblNumber" style="color:red">0</label> {{ config.unit_of_number}} <input id="cz_number2" name="cz_number2" type="hidden" value="0"> </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td> 总重量：<label id="lblWeight" style="color:red">0</label> {{ config.unit_of_weight}} <input id="cz_weight2" name="cz_weight2" type="hidden" value="0"> </td>
+                                                <td> </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
                         </div>

@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import login as sys_login
 from django.urls import path,re_path
-from meat.views import (index, logout, sys_settings, post_config,
-                        sg_edit, sg_list, post_sg, tzq_edit,
-                        tzq_list, ttcz_edit)
+from meat.views import (index, logout, sys_settings, post_config, get_sgdata,
+                        sg_edit, sg_list, post_sg, tzq_edit, get_collectInfo_by_sgno,
+                        post_tzq, tzq_list, ttcz_edit)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,9 +28,12 @@ urlpatterns = [
     path('sys_settings', sys_settings),
     path('post_config', post_config),
     path('sg_edit/', sg_edit),
+    path('get_sgdata', get_sgdata),
     path('post_sg', post_sg),
+    path('get_sg/<no>',get_collectInfo_by_sgno),
     path('sg_list/', sg_list),
     path('tzq_edit/', tzq_edit),
     path('tzq_list/', tzq_list),
+    path('post_tzq', post_tzq),
     path('ttcz_edit/', ttcz_edit),
 ]

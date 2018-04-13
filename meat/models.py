@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User, Group
 
@@ -43,6 +45,9 @@ class Customer(models.Model):
     address = models.CharField(max_length=255)
     mobile = models.CharField(max_length=20)
 
+    def to_dict(self):
+        return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]])
+
 
 class CollectInfo(models.Model):
     """收购信息表"""
@@ -50,6 +55,8 @@ class CollectInfo(models.Model):
     pay_type = models.IntegerField(default=1)  # 结算方式
     sg_price = models.FloatField(default=0)  # 收购单价
     sg_datetime = models.DateTimeField(auto_now=True)  # 收购时间
+    tzq_datetime = models.DateTimeField(null=True, blank=True)  # 屠宰前时间
+    tt_datetime = models.DateTimeField(null=True, blank=True)  # 酮体称重时间
     customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)  # 客户账号
     cz_weight = models.FloatField(default=0)  # 收购称重重量
     cz_weight2 = models.FloatField(default=0)  # 待宰前称重重量
@@ -63,8 +70,28 @@ class CollectInfo(models.Model):
     c_level = models.CharField(max_length=20)  # 等级
     state = models.IntegerField(default=1)  # 数据状态，备用
     flow_step = models.IntegerField(default=0)  # 流程状态，改数据到哪一步，0.活体称重；1. 屠宰前称重；2. 酮体称重;
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)  # 操作员
+    user = models.ForeignKey(User, related_name='user', null=True, on_delete=models.SET_NULL)  # 收购操作员
+    user2 = models.ForeignKey(User, related_name='user2', null=True, on_delete=models.SET_NULL)  # 屠宰前称重操作员
+    user3 = models.ForeignKey(User, related_name='user3', null=True, on_delete=models.SET_NULL)  # 酮体称重操作员
 
+    def to_dict(self):
+        fields = []
+        for field in self._meta.fields:
+            fields.append(field.name)
+
+        d = {}
+        for attr in fields:
+            if isinstance(getattr(self, attr), datetime.datetime):
+                d[attr] = getattr(self, attr).strftime('%Y-%m-%d %H:%M:%S')
+            elif isinstance(getattr(self, attr), datetime.date):
+                d[attr] = getattr(self, attr).strftime('%Y-%m-%d')
+            elif isinstance(getattr(self, attr), Customer):
+                d[attr] = getattr(self, attr).to_dict()
+            elif isinstance(getattr(self, attr), User):
+                d[attr] = getattr(self,attr).username
+            else:
+                d[attr] = getattr(self, attr)
+        return d
 
 '''
 class CollectInfo(models.Model):
