@@ -74,10 +74,9 @@ def sg_list(request):
 def get_sgdata(request):
     size = request.GET.get("size", 10)
     page = request.GET.get("page", 0)
-    sql = "SELECT  * from meat_collectinfo ORDER BY id DESC LIMIT {0} OFFSET {1} ".format(size, page*size)
-    models = CollectInfo.objects.raw(sql)
-    data = model_to_dict(models)
-    return JsonResponse(data)
+    models = CollectInfo.objects.filter(flow_step=1, state=1).order_by("-id")
+    data = [m.to_dict() for m in models]
+    return JsonResponse(data, safe=False)
 
 
 
@@ -117,7 +116,8 @@ def tzq_list(request):
 
 
 def ttcz_edit(request):
-    return render(request, 'meat/ttcz_edit.html')
+    config = SystemConfig.objects.first()
+    return render(request, 'meat/ttcz_edit.html', {"config": config})
 
 
 def sys_settings(request):

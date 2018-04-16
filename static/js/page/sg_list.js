@@ -3,3 +3,7 @@ $(function () {
         "url": "get_sgdata"
     });
 })
+
+function custFormatter(value) {
+    return value.cust_name;
+}

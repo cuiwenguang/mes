@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <div class="card-title">收购环节称重</div>
+        <div class="card-title">活体收购称重台账</div>
         <div class="pull-right card-action">
             <div role="group">
                 <input type="text" >
@@ -15,9 +15,10 @@
                     <th data-field="id">流水号</th>
                     <th data-field="sg_no">收购批次</th>
                     <th data-field="sg_datetime">时间</th>
-                    <th data-field="customer">交货人</th>
+                    <th data-field="customer" data-formatter="custFormatter">交货人</th>
                     <th data-field="cz_number">数量</th>
-                    <th data-field="cz_weight">重量</th>
+                    <th data-field="cz_weight">活体收购重量</th>
+                    <th data-field="cz_weight2">屠宰前重量</th>
                     <th data-field="c_standard">规格</th>
                     <th data-field="c_type">品种</th>
                     <th data-field="user">操作员</th>

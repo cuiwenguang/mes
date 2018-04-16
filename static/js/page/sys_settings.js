@@ -8,6 +8,7 @@ $(function () {
              },
         excuded: "disabled",
         fields:{
+            /**
             'pay_type': {
                 message: "至少选择一种结算方式",
                 validators: {
@@ -17,7 +18,7 @@ $(function () {
                         message: "至少选择一种结算方式"
                     }
                 }
-            },
+            },*/
             'unit_of_weight': {
                 message: "重量计量单位输入不正确",
                 validators: {
