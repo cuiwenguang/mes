@@ -11,7 +11,7 @@
         <div id="alertContainer"></div>
         <form id="configForm" class="form-horizontal" method="post">
             {% csrf_token %}
-            <input type="hidden" name="pk" value="{{ config.id }}">
+            <input type="hidden" name="pk" value="{{ config.id | default:0 }}">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">

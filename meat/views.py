@@ -4,8 +4,7 @@ from django.contrib.auth import logout as sys_logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http.response import JsonResponse
-from django.core.serializers import serialize
-from django.forms.models import  model_to_dict
+from django.forms.models import model_to_dict
 
 from .modules import get_modules
 from .forms import ConfigForm
@@ -65,7 +64,7 @@ def post_sg(request):
     }
     model = CollectInfo(**sg)
     model.save()
-    return JsonResponse({"code":200,"message":"本次收购数据提交成功"})
+    return JsonResponse({"code": 200,"message": "本次收购数据提交成功"})
 
 
 def sg_list(request):
@@ -73,10 +72,11 @@ def sg_list(request):
 
 
 def get_sgdata(request):
-    models = CollectInfo.objects.all()
     size = request.GET.get("size", 10)
     page = request.GET.get("page", 0)
-    data = model_to_dict(models[page * size:page * size + size])
+    sql = "SELECT  * from meat_collectinfo ORDER BY id DESC LIMIT {0} OFFSET {1} ".format(size, page*size)
+    models = CollectInfo.objects.raw(sql)
+    data = model_to_dict(models)
     return JsonResponse(data)
 
 
@@ -90,8 +90,8 @@ def post_tzq(request):
     if request.method != "POST":
         return JsonResponse({"code": 403, "message": "非法访问被拒绝"})
     sg_no = request.POST.get('sg_no', '')
-    if len(sg_no) == 0 :
-        return JsonResponse({"code":404, "message":"没有找到对应的收购信息，提交失败"})
+    if len(sg_no) == 0:
+        return JsonResponse({"code": 404, "message": "没有找到对应的收购信息，提交失败"})
     try:
         model = CollectInfo.objects.get(sg_no=sg_no, flow_step=1)
         model.tzq_datetime = request.POST.get("tzq_datetime", datetime.datetime.now())
@@ -100,16 +100,16 @@ def post_tzq(request):
         model.user2 = request.user
         model.save()
         return JsonResponse({"code": 200, "message": "数据提交成功"})
-    except:
+    except Exception as e:
         return JsonResponse({"code": 500, "message": "发生错误，提交失败"})
 
 
 def get_collectInfo_by_sgno(request, no):
     try:
-        model = CollectInfo.objects.get(sg_no=no,flow_step=1)
-        return JsonResponse({"code":200, "data":model.to_dict()})
+        model = CollectInfo.objects.get(sg_no=no, flow_step=1)
+        return JsonResponse({"code": 200, "data": model.to_dict()})
     except:
-        return JsonResponse({"code":404, "data":None})
+        return JsonResponse({"code": 404, "data": None})
 
 
 def tzq_list(request):
@@ -120,10 +120,9 @@ def ttcz_edit(request):
     return render(request, 'meat/ttcz_edit.html')
 
 
-
 def sys_settings(request):
     config = SystemConfig.objects.first()
-    return render(request, 'meat/sys_settings.html',{"config":config})
+    return render(request, 'meat/sys_settings.html', {"config": config})
 
 
 def post_config(request):
@@ -133,5 +132,5 @@ def post_config(request):
             instance = form.save(commit=False)
             instance.id = request.POST.get("pk", 0)
             instance.save()
-            return JsonResponse({"code":200,"message": "保存成功"})
-    return JsonResponse({"code":403})
+            return JsonResponse({"code": 200, "message": "保存成功"})
+    return JsonResponse({"code": 403})
