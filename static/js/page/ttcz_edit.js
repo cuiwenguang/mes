@@ -53,6 +53,7 @@ function isPay() {
     pay_type = parseInt($("#pay_type").val())
     if (pay_type == 1){
         $("#sg_no").attr('disabled', 'disabled');
+        $("#sg_no").val('');
         $(".jiesuan").show();
     } else {
         $("#sg_no").removeAttr('disabled');
@@ -121,7 +122,16 @@ function restToWait() {
 $("#btnSubmit").click(function (isPrint) {
     $("#formSG").bootstrapValidator('validate');
     if ($("#formSG").data('bootstrapValidator').isValid()) {
-        $.post("post_sg",
+        if($("#cz_weight").val()=="0" || $("#cz_number").val()=="0"){
+            try{
+                 win.messageBox("没有任何称重数据，无法提交");
+            } catch(err) {
+                alert("没有任何称重数据，无法提交");
+            }
+
+            return
+        }
+        $.post("/post_ttcz",
             $("#formSG").serialize(),
             function (data) {
                 $("#alertContainer").html('');

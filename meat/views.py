@@ -10,6 +10,7 @@ from .modules import get_modules
 from .forms import ConfigForm
 from .models import SystemConfig, Customer, CollectInfo
 from .number import get__number
+from .procedure import FlowState, DataState
 
 
 def logout(request):
@@ -57,8 +58,8 @@ def post_sg(request):
         "c_standard": request.POST.get("c_standard"),
         "cz_number": request.POST.get("cz_number"),
         "cz_weight": request.POST.get("cz_weight"),
-        "state": 1,
-        "flow_step": 1,
+        "state": DataState.normal.value,
+        "flow_step": FlowState.htsg.value,
         "user": request.user,
         "customer": cust
     }
@@ -74,7 +75,7 @@ def sg_list(request):
 def get_sgdata(request):
     size = request.GET.get("size", 10)
     page = request.GET.get("page", 0)
-    models = CollectInfo.objects.filter(flow_step=1, state=1).order_by("-id")
+    models = CollectInfo.objects.filter(flow_step=1,state__gt=0).order_by("-id")
     data = [m.to_dict() for m in models]
     return JsonResponse(data, safe=False)
 
@@ -96,6 +97,7 @@ def post_tzq(request):
         model.tzq_datetime = request.POST.get("tzq_datetime", datetime.datetime.now())
         model.cz_number2 = request.POST.get("cz_number2", 0)
         model.cz_weight2 = request.POST.get("cz_weight2", 0)
+        model.flow_step = FlowState.tzqcz.value
         model.user2 = request.user
         model.save()
         return JsonResponse({"code": 200, "message": "数据提交成功"})
@@ -118,6 +120,62 @@ def tzq_list(request):
 def ttcz_edit(request):
     config = SystemConfig.objects.first()
     return render(request, 'meat/ttcz_edit.html', {"config": config})
+
+
+def post_ttcz(request):
+    if request.method != "POST":
+        return JsonResponse({"code": 403, "message": "非法访问被拒绝"})
+    try:
+        cust = Customer.objects.get(id_card=request.POST.get("id_card"))
+        cust.cust_name = request.POST.get("cust_name")
+        cust.mobile = request.POST.get("mobile", cust.mobile)
+        cust.address = request.POST.get("address", cust.address)
+    except:
+        cust = Customer(**{
+            "id_card": request.POST.get("id_card"),
+            "cust_name": request.POST.get("cust_name"),
+            "mobile": request.POST.get("mobile", ""),
+            "address": request.POST.get("address", "")
+        })
+    cust.save()
+    sg_no = request.POST.get("sg_no")
+    if sg_no is not None:
+        model = CollectInfo.objects.get(sg_no=sg_no)
+        model.cz_number3 = request.POST.get("cz_number")
+        model.cz_number3 = request.POST.get("cz_weight")
+        model.flow_step = FlowState.ttcz.value
+        model.tt_datetime = request.POST.get("sg_datetime"),
+    else:
+        model = CollectInfo(**{
+            "sg_no": get__number("SG"),
+            "pay_type": request.POST.get("pay_type", 1),
+            "sg_price": request.POST.get("sg_price", 0),
+            "tt_datetime": request.POST.get("sg_datetime"),
+            "sg_source": request.POST.get("sg_source"),
+            "c_type": request.POST.get("c_type"),
+            "c_standard": request.POST.get("c_standard"),
+            "cz_number3": request.POST.get("cz_number"),
+            "cz_weight3": request.POST.get("cz_weight"),
+            "state": DataState.normal.value,
+            "flow_step": FlowState.ttcz.value,
+            "user3": request.user,
+            "customer": cust
+        })
+    model.save()
+    return JsonResponse({"code": 200,"message": "本次收购数据提交成功"})
+
+
+def ttcz_list(request):
+    config = SystemConfig.objects.first()
+    return render(request, 'meat/ttcz_list.html', {"config": config})
+
+
+def get_ttcz(request):
+    size = request.GET.get("size", 10)
+    page = request.GET.get("page", 0)
+    models = CollectInfo.objects.filter(flow_step=3, state__gt=0).order_by("-id")
+    data = [m.to_dict() for m in models]
+    return JsonResponse(data, safe=False)
 
 
 def sys_settings(request):

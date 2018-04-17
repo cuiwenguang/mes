@@ -45,6 +45,9 @@
                         <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
                             <i class="fa fa-times icon"></i>
                         </button>
+                        <li>
+                            <a href="javascript:win.refresh();" role="button"><i class="fa fa-refresh"></i></a>
+                        </li>
                         <li class="dropdown profile">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ user.username }} <span class="caret"></span></a>
                             <ul class="dropdown-menu animated fadeInDown">
@@ -77,27 +80,32 @@
                         </div>
                         <ul id="sideMenu" class="nav navbar-nav">
                             <li class="active">
-                                <a href="#sg_edit">
+                                <a href="{% url 'sg_edit' %}">
                                     <span class="icon fa fa-tachometer"></span><span class="title">活体收购称重</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#tzq_edit">
+                                <a href="{% url 'tzq_edit' %}">
                                     <span class="icon fa fa-tachometer"></span><span class="title">屠宰前称重</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#sg_list">
+                                <a href="{% url 'sg_list' %}">
                                     <span class="icon fa fa-list"></span><span class="title">活体收购台账</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#ttcz_edit">
+                                <a href="{% url 'ttcz_edit' %}">
                                     <span class="icon fa fa-tachometer"></span><span class="title">酮体称重</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#sys_settings">
+                                <a href="{% url 'ttcz_list' %}">
+                                    <span class="icon fa fa-list"></span><span class="title">酮体称重台账</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'sys_settings' %}">
                                     <span class="icon fa fa-cog"></span><span class="title">收购设置</span>
                                 </a>
                             </li>

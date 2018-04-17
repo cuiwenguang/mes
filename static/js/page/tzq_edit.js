@@ -6,7 +6,7 @@ var totalNumber = 0;
 $(function () {
     $("#sg_no").blur(function () {
         if (this.value == "") return
-        $.get("get_sg/"+ this.value, function (data) {
+        $.get("/get_sg/"+ this.value, function (data) {
             if(data.code == 200){
                 initData(data.data);
             }else {
@@ -39,7 +39,11 @@ function isPay() {
 
 $("#btnSave").click(function () {
    if(parseFloat($("#mz_weight").val())<parseFloat($("#pz_weight").val())){
-       alert("称重数据似乎不正确，检查是否传感器是否连接正常");
+       try{
+           win.messageBox("称重数据似乎不正确，检查是否传感器是否连接正常");
+       }catch (err){
+           alert("称重数据似乎不正确，检查是否传感器是否连接正常");
+       }
        return;
    }
    $("#lblCount").text(++count);
@@ -98,6 +102,7 @@ function restToWait() {
     $("#address").val("");
     $("#sg_source").val("");
     $("#sg_datetime").val("")
+    $("#table1").bootstrapTable('removeAll');
 }
 
 $("#btnSubmit").click(function (isPrint) {
@@ -105,7 +110,7 @@ $("#btnSubmit").click(function (isPrint) {
        parseInt($("#cz_weight2").val()) == 0){
         alert("核对收购数量和称重数据是否正确");
     }
-    $.post("post_tzq",
+    $.post("/post_tzq",
             $("#formSG").serialize(),
             function (data) {
                 $("#alertContainer").html('');

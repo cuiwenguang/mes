@@ -1,20 +1,12 @@
 $(function () {
-    $('#sideMenu li').click(function () {
-        $('#sideMenu li').removeClass("active");
-        $(this).addClass("active")
-        var url =$(this.firstElementChild).attr('href').slice(1);
-        var js = document.getElementById("tempJS");
-        if (js!=null){
-            document.body.removeChild(js);
+
+    $('#sideMenu li').each(function () {
+        var current = $(this).find('a').attr('href');
+        if(current == window.location.pathname){
+            $(this).addClass("active");
+        } else {
+            $(this).removeClass('active');
         }
-        $.get(url, function (data) {
-            $(".side-body").html(data);
-            var script = document.createElement("script");
-            script.id = "tempJS";
-            script.type = "text/javascript";
-            script.src = "/static/js/page/"+url+".js";
-            document.getElementsByTagName("body")[0].appendChild(script)
-        });
     })
 })
 
