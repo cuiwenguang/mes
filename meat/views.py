@@ -178,6 +178,12 @@ def get_ttcz(request):
     return JsonResponse(data, safe=False)
 
 
+def pscz_edit(request):
+    """排酸称重"""
+    config = SystemConfig.objects.first()
+    return render(request, 'meat/pscz_edit.html', {"config": config})
+
+
 def sys_settings(request):
     config = SystemConfig.objects.first()
     return render(request, 'meat/sys_settings.html', {"config": config})

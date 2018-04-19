@@ -94,18 +94,37 @@ class CollectInfo(models.Model):
         return d
 
 
-
-class RawInfo(models.Model):
+class RawLib(models.Model):
     """原料集冻库"""
     datetime_at = models.DateTimeField(auto_now_add=True)
     sc_no = models.CharField(max_length=50)
     sg_no = models.CharField(max_length=50)
-
+    customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)  # 客户账号
+    ps_weight = models.FloatField(default=0)
+    level = models.IntegerField(default=0)
+    chfx = models.CharField(max_length=20)
 
 
 class ProductInfo(models.Model):
-    sc_no = models.CharField(max_length=50)
-    product_no = models.IntegerField()
-    product_name = models.CharField(max_length=50)
-    product_weight = models.FloatField()
+    p_no = models.CharField(max_length=50)
+    p_name = models.CharField(max_length=50)
+    pack_spec_num = models.IntegerField(default=1)  # 包装规格 1包多少个
+    pack_spec_weight = models.FloatField(default=0)  # 包装规格，1包多重
 
+
+class ProductLib(models.Model):
+    product = models.ForeignKey(ProductInfo, on_delete=models.SET_NULL)
+    update_at = models.DateTimeField(auto_now_add=True)
+    number = models.FloatField(default=0)
+    weight = models.FloatField(default=0)
+    warning_number = models.FloatField(default=1) # 库存预警
+
+
+class TransInfo(models.Model):
+    """产品交易明细"""
+    product = models.ForeignKey(ProductInfo, on_delete=models.SET_NULL)
+    create_at = models.DateTimeField(auto_now_add=True)  # 交易时间
+    direction = models.IntegerField() # 0:入库， 1：出库
+    number = models.FloatField()  # 数量
+    weight = models.FloatField()  # 重量
+    sc_no = models.CharField(max_length=50)  # 生产批次

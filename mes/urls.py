@@ -18,7 +18,7 @@ from django.contrib.auth.views import login as sys_login
 from django.urls import path,re_path
 from meat.views import (index, logout, sys_settings, post_config, get_sgdata,get_ttcz, ttcz_list,
                         sg_edit, sg_list, post_sg, tzq_edit, get_collectInfo_by_sgno,
-                        post_tzq, tzq_list, ttcz_edit, post_ttcz)
+                        post_tzq, tzq_list, ttcz_edit, post_ttcz, pscz_edit)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,4 +39,5 @@ urlpatterns = [
     path('ttcz_list/', ttcz_list, name="ttcz_list"),
     path('get_ttcz/', get_ttcz, name="get_ttcz"),
     path('post_ttcz', post_ttcz, name="post_ttcz"),
+    path('pscz_eidt', pscz_edit, name="pscz_edit"),
 ]
