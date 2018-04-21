@@ -69,7 +69,7 @@ class CollectInfo(models.Model):
     c_standard = models.CharField(max_length=20)  # 规格
     c_level = models.CharField(max_length=20)  # 等级
     state = models.IntegerField(default=1)  # 数据状态，备用
-    flow_step = models.IntegerField(default=0)  # 流程状态，改数据到哪一步，0.活体称重；1. 屠宰前称重；2. 酮体称重;
+    flow_step = models.IntegerField(default=0)  # 流程状态，改数据到哪一步，0.活体称重；1. 屠宰前称重；2. 酮体称; 3. 排酸称重;
     user = models.ForeignKey(User, related_name='user', null=True, on_delete=models.SET_NULL)  # 收购操作员
     user2 = models.ForeignKey(User, related_name='user2', null=True, on_delete=models.SET_NULL)  # 屠宰前称重操作员
     user3 = models.ForeignKey(User, related_name='user3', null=True, on_delete=models.SET_NULL)  # 酮体称重操作员
@@ -103,6 +103,7 @@ class RawLib(models.Model):
     ps_weight = models.FloatField(default=0)
     level = models.IntegerField(default=0)
     chfx = models.CharField(max_length=20)
+    state = models.IntegerField(default=0)  # 该收购批次的是否都脱酸完成0：未完成，数量不够，1：完成，和收购的数量匹配
 
 
 class ProductInfo(models.Model):
@@ -113,7 +114,7 @@ class ProductInfo(models.Model):
 
 
 class ProductLib(models.Model):
-    product = models.ForeignKey(ProductInfo, on_delete=models.SET_NULL)
+    product = models.ForeignKey(ProductInfo, null=True, on_delete=models.SET_NULL)
     update_at = models.DateTimeField(auto_now_add=True)
     number = models.FloatField(default=0)
     weight = models.FloatField(default=0)
@@ -122,7 +123,7 @@ class ProductLib(models.Model):
 
 class TransInfo(models.Model):
     """产品交易明细"""
-    product = models.ForeignKey(ProductInfo, on_delete=models.SET_NULL)
+    product = models.ForeignKey(ProductInfo, null=True, on_delete=models.SET_NULL)
     create_at = models.DateTimeField(auto_now_add=True)  # 交易时间
     direction = models.IntegerField() # 0:入库， 1：出库
     number = models.FloatField()  # 数量

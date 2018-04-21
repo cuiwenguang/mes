@@ -80,7 +80,6 @@ def get_sgdata(request):
     return JsonResponse(data, safe=False)
 
 
-
 def tzq_edit(request):
     config = SystemConfig.objects.first()
     return render(request, 'meat/tzq_edit.html', {"config": config})
@@ -111,10 +110,6 @@ def get_collectInfo_by_sgno(request, no):
         return JsonResponse({"code": 200, "data": model.to_dict()})
     except:
         return JsonResponse({"code": 404, "data": None})
-
-
-def tzq_list(request):
-    return render(request, 'meat/tzq_list.html')
 
 
 def ttcz_edit(request):
